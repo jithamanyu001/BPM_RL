@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from environment import BusinessLogEnv
-from agent import Actor, Critic
+from later.later import Actor, Critic
 import torch.optim as optim
 import torch.nn as nn
 import torch

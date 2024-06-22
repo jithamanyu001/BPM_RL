@@ -1,3 +1,7 @@
 model an env
 think of the reward strcuture
 decide on agent
+
+
+
+is not using case id in state/pred an issue?
