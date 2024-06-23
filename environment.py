@@ -41,8 +41,8 @@ class BusinessLogEnv:
         if self.current_index < len(self.data):
             next_event = self.data.iloc[self.current_index]
             next_list = []
-            for pred_var in self.pred_vars:
-                next_list.append(next_event[pred_var])
+            # for pred_var in self.pred_vars:
+            next_list = self.encode_event(next_event)
             if next_list == self.action_space[action]: 
                 reward = 1
             self.state.append(self.encode_event(next_event))

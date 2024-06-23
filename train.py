@@ -4,16 +4,17 @@ from q_learning_agent import QLearningAgent
 import numpy as np
 
 
-data = pd.read_csv("/home/srinivasan/Skan/Models/BPM_RL/cisive_data_hash_removed.csv")
+data = pd.read_csv("/home/srinivasan/Skan/Models/BPM_RL/filtered_data_reduced.csv").head(10000)
+# x - correct   2x - 10000    r + 10000 / 20000
 # data = data[data['case_id']=="62ca1700177dda71feb36f7770f30e06/149"]
 data = data.fillna("")
-pred_vars = ['activity_discovered_name', 'application_name', 'data_attributes']
+pred_vars = ['case_id', 'app_name_activity', 'unhashed_active_url']
 
 k = 3
 env = BusinessLogEnv(data, k, pred_vars)
 
 action_size = len(env.action_space)
-agent = QLearningAgent(action_size, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, epsilon_decay=1, epsilon_min=0.5)
+agent = QLearningAgent(action_size, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, epsilon_decay=0.99, epsilon_min=0.001)
 
 num_episodes = 1000
 

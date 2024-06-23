@@ -17,6 +17,8 @@ class QLearningAgent:
         return tuple(state)
 
     def get_action(self, state):
+
+        # this is e greedy
         state_key = self.get_state_key(state)
         if np.random.rand() <= self.epsilon:
             return np.random.choice(self.action_size)
@@ -24,6 +26,7 @@ class QLearningAgent:
             self.q_table[state_key] = np.zeros(self.action_size)
         return np.argmax(self.q_table[state_key])
 
+        # this is softmax
         # state_key = self.get_state_key(state)
         # if state_key not in self.q_table:
         #     self.q_table[state_key] = np.zeros(self.action_size)
@@ -40,10 +43,16 @@ class QLearningAgent:
             self.q_table[state_key] = np.zeros(self.action_size)
         if next_state_key not in self.q_table:
             self.q_table[next_state_key] = np.zeros(self.action_size)
+        
+        # if ((0, 34, 0), (0, 5, 0), (0, 10, 0)) in self.q_table.keys():
+        #     print(self.q_table[((0, 34, 0), (0, 5, 0), (0, 10, 0))])
+        # print("  ")
+        # print("  ")
 
         best_next_action = np.argmax(self.q_table[next_state_key])
         td_target = reward + self.discount_factor * self.q_table[next_state_key][best_next_action] * (1 - done)
         td_error = td_target - self.q_table[state_key][action]
+        # print(state_key)
         self.q_table[state_key][action] += self.learning_rate * td_error
 
         if done:
