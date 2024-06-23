@@ -1,6 +1,7 @@
 import pandas as pd
 from environment import BusinessLogEnv
 from q_learning_agent import QLearningAgent
+from sarsa_agent import SarsaAgent
 import numpy as np
 
 
@@ -14,9 +15,9 @@ k = 3
 env = BusinessLogEnv(data, k, pred_vars)
 
 action_size = len(env.action_space)
-agent = QLearningAgent(action_size, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, epsilon_decay=0.99, epsilon_min=0.001)
+agent = SarsaAgent(action_size, learning_rate=0.1, discount_factor=0.99, epsilon=0.1, epsilon_decay=0.995, epsilon_min=0.01)
 
-num_episodes = 1000
+num_episodes = 20000
 
 for episode in range(num_episodes):
     state = env.reset()
@@ -29,8 +30,9 @@ for episode in range(num_episodes):
         agent.update_q_table(state, action, reward, next_state, done)
         state = next_state
         total_reward += reward
-
-    print(f"Episode {episode + 1}/{num_episodes}, Total Reward: {total_reward}")
+    
+    if episode%100 == 0:
+        print(f"Episode {episode + 1}/{num_episodes}, Total Reward: {total_reward}")
 
     # # Optionally, save the Q-table every few episodes
     # if (episode + 1) % 100 == 0:
